@@ -27,7 +27,7 @@ export default async function UserGalary({
 
   let galary: Array<ReactNode> = users.map((user) => {
     return (
-      <div>
+      <div key={user.id.value}>
         <Card>
           <CardHeader>
             <Avatar>

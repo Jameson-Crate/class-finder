@@ -5,8 +5,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 export default async function UserGalary({
   count,
@@ -27,19 +37,49 @@ export default async function UserGalary({
 
   let galary: Array<ReactNode> = users.map((user) => {
     return (
-      <div key={user.id.value}>
-        <Card>
-          <CardHeader>
-            <Avatar>
-              <AvatarImage src={user.picture.large} alt="Missing"/>
-            </Avatar>
-            <CardTitle>{user.name.first}</CardTitle>
-            <CardDescription>Street: {user.location.street.name + " " + user.location.street.number}</CardDescription>
-          </CardHeader>
-        </Card>
+      <div className="grid" key={user.id.value}>
+        <AlertDialog >
+          <AlertDialogTrigger>
+            <Card className="flex justify-center">
+              <CardHeader className="flex place-items-center">
+                <Avatar className="size-20">
+                  <AvatarImage src={user.picture.large} alt="Missing" />
+                </Avatar>
+                <CardTitle>{user.name.first}</CardTitle>
+                <CardDescription>
+                  Street:{" "}
+                  {user.location.street.name +
+                    " " +
+                    user.location.street.number}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                <Avatar className="size-20">
+                  <AvatarImage src={user.picture.large} alt="Missing" />
+                </Avatar>
+                <h1>{user.name.first + " " + user.name.last}</h1>
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Street:{" "}
+                {user.location.street.name + " " + user.location.street.number}
+                <br />
+                Longitude: {user.location.coordinates.longitude}
+                <br />
+                Latitude: {user.location.coordinates.latitude}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Done</AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   });
 
-  return <div>{galary}</div>;
+  return <div className="p-10 grid grid-cols-2">{galary}</div>;
 }
